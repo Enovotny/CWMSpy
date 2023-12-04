@@ -2,7 +2,7 @@ from utils import queryCDA
 import pandas as pd
 import json
 
-def retreive_loc_group(apiRoot,p_loc_group_id,p_category_id,p_office_id,dataframe = True):
+def retreive_loc_group(apiRoot,p_loc_group_id,p_category_id,p_office_id,output = 'dataframe'):
     
     endPoint = f'/location/group/{p_loc_group_id}'
     
@@ -15,10 +15,10 @@ def retreive_loc_group(apiRoot,p_loc_group_id,p_category_id,p_office_id,datafram
         "Accept": "application/json"
     }
     
-    responce = queryCDA(apiRoot+endPoint,params,headerList).json()
+    responce = queryCDA(apiRoot+endPoint,params,headerList,output,dict_key = 'assigned-locations')
     
-    if dataframe:
-        responce = pd.DataFrame(responce['assigned-locations'])
+    #if dataframe:
+    #   responce = pd.DataFrame(responce['assigned-locations'])
     
     return responce
 
