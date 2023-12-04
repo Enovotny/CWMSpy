@@ -1,7 +1,8 @@
 import requests
+import pandas as pd
+import json
 
-
-def queryCDA(url, payload, headerList):
+def queryCDA(url, payload, headerList, output, dict_key):
     """Send a query.
 
     Wrapper for requests.get that handles errors and returns response.
@@ -31,4 +32,21 @@ def queryCDA(url, payload, headerList):
             'Page Not Found Error. May be the result of an empty query. '
             + f'URL: {response.url}'
         )
+
+    return output_type(response, output, dict_key)
+
+def output_type(response, output, dict_key):
+
+    if output in ['dataframe','dictionary']:
+        response = response.json()
+
+    if output == 'dataframe':
+        temp = pd.DataFrame(response[dict_key])
+        if dict_key == 'values':
+            temp.columns = [sub['name'] for sub in response['value-columns']]
+
+            if 'date-time' in temp.columns:
+                temp['date-time'] = pd.to_datetime(temp['date-time'], unit='ms')
+        response = temp
+
     return response

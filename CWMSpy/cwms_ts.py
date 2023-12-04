@@ -2,7 +2,7 @@ from utils import queryCDA
 import pandas as pd
 import json
 
-def retreive_ts_group(apiRoot,p_group_id,p_category_id,p_office_id,dataframe=True):
+def retreive_ts_group(apiRoot,p_group_id,p_category_id,p_office_id, output = 'dataframe'):
     
     endPoint = f'/timeseries/group/{p_group_id}'
     
@@ -15,14 +15,14 @@ def retreive_ts_group(apiRoot,p_group_id,p_category_id,p_office_id,dataframe=Tru
         "Accept": "application/json"
     }
     
-    responce = queryCDA(apiRoot+endPoint,params,headerList).json()
+    responce = queryCDA(apiRoot+endPoint, params, headerList, output, dict_key = 'assigned-time-series')
     
-    if dataframe:
-        responce = pd.DataFrame(responce['assigned-time-series'])
+    #if dataframe:
+    #    responce = pd.DataFrame(responce['assigned-time-series'])
         
     return responce
 
-def retrieve_ts(apiRoot,p_tsId,p_office_id=None,p_unit=None,p_datum=None,p_start_date=None,p_end_date=None,p_timezone=None,dataframe=True,p_page_size=500,):
+def retrieve_ts(apiRoot, p_tsId, p_office_id=None, p_unit=None, p_datum=None, p_start_date=None, p_end_date=None, p_timezone=None, p_page_size=500, output='dataframe'):
     #creates the dataframe from the timeseries data
     endPoint = '/timeseries'
     if p_start_date is not None: p_start_date = p_start_date.strftime('%Y-%m-%dT%H:%M:%S')
@@ -41,11 +41,7 @@ def retrieve_ts(apiRoot,p_tsId,p_office_id=None,p_unit=None,p_datum=None,p_start
     headerList={
         "Accept": "application/json;version=2"
     }
-    responce = queryCDA(apiRoot+endPoint,params,headerList).json()
+    responce = queryCDA(apiRoot+endPoint,params,headerList,output, dict_key = 'values')
     
-    if dataframe:
-        responce = pd.DataFrame(responce['values'], columns = ["date_time","val","quality_code"])
-        responce.date_time = pd.to_datetime(responce.date_time, unit='ms')
-        responce=responce.set_index('date_time')
     return responce
 
