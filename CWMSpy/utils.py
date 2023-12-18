@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 import json
 
-def queryCDA(url, payload, headerList, output, dict_key):
+def queryCDA(self, endpoint, payload, headerList, output, dict_key):
     """Send a query.
 
     Wrapper for requests.get that handles errors and returns response.
@@ -21,7 +21,7 @@ def queryCDA(url, payload, headerList, output, dict_key):
     """
 
 
-    response = requests.get(url, params=payload, headers=headerList)
+    response = self.s.get(endpoint, params=payload, headers=headerList)
 
     if response.status_code == 400:
         raise ValueError(
