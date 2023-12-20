@@ -1,0 +1,19 @@
+plugins {
+    id "java"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.51'
+}
+
+// Create a task to run the Swagger Codegen CLI
+task runSwaggerCodeGenCLI(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'io.swagger.codegen.v3.cli.SwaggerCodegen'
+    args = ['generate', '-i', 'https://cwms-data.usace.army.mil/cwms-data/swagger-docs', '-l', 'python', '-o', 'lib', '-c', 'config.json'] // add additional arguments here
+
+}

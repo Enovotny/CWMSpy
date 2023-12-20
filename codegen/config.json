@@ -1,0 +1,9 @@
+{
+  "packageName": "cda_client",
+  "projectName": "CWMSpy",
+  "packageVersion": "1.0.0",
+  "packageUrl": " https://github.com/Enovotny/CWMSpy",
+  "sortParamsByRequiredFlag": "true",
+  "hidGenerationTimestamp": "false"
+
+}
