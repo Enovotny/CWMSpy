@@ -21,5 +21,4 @@ setup(
     author='Eric Novotny',
     install_requires=["pandas","requests_toolbelt"],
     requires_python=[">=3.9.0"],
-    packages=find_packages(),
 )
